@@ -1,0 +1,41 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require "multi_ping"
+
+# You can add fixtures and/or initialization code here to make experimenting
+# with your gem easier. You can also use a different console, if you like.
+
+# (If you use this, don't forget to add pry to your Gemfile!)
+# require "pry"
+# Pry.start
+
+# puts ARGF.read
+
+require 'optparse'
+
+options = {}
+OptionParser.new do |opts|
+  opts.banner = <<BANNER
+  Usage 1: multi_ping [options] hosts...
+  Usage 2: multi_ping [options] < host_file (one host each line)
+  Usage 3: echo hosts... || multi_ping [options]
+BANNER
+  opts.on('-c', '--count COUNT', 'Ping Count') { |v| options[:count] = v }
+  opts.on('-s', '--size SIZE', 'Ping Package Size') { |v| options[:size] = v }
+  opts.on('-p', '--parallel PARALLEL', 'Parallel running') { |v| options[:parallel] = v }
+  opts.on('-l', '--list', 'server list only') { options[:list_only] = true}
+end.parse!
+
+
+options[:hosts] = []
+
+if $stdin.tty?
+  options[:hosts] = ARGV
+else
+  ARGF.each do |line|
+    options[:hosts] << line
+  end
+end
+
+MultiPing::Processor.new(options).process.report
