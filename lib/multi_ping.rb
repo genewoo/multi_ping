@@ -29,7 +29,6 @@ module MultiPing
           begin
             while host = @queue.pop(true)
               host = host.gsub("\n", '')
-              # puts "ping -c #{@count} -s #{@size} #{host} || echo ERROR"
               @results[host] = `ping -c #{@count} -s #{@size} #{host} || echo ERROR`.split("\n")
             end
           rescue ThreadError
