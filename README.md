@@ -1,28 +1,25 @@
-# MultiPing
+# multi_ping
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/multi_ping`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+For some reasons, you need to check network connection statics to more than one server. 
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'multi_ping'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
+Install it yourself as:
 
     $ gem install multi_ping
 
 ## Usage
 
-TODO: Write usage instructions here
+```
+  Usage 1: multi_ping [options] hosts...
+  Usage 2: multi_ping [options] < host_file (one host each line)
+  Usage 3: echo hosts... || multi_ping [options]
+    -c, --count COUNT                Ping Count
+    -s, --size SIZE                  Ping Package Size
+    -p, --parallel PARALLEL          Parallel running
+    -l, --list                       server list only
+ ```
+
 
 ## Development
 
@@ -32,7 +29,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/multi_ping. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/genewoo/multi_ping. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](contributor-covenant.org) code of conduct.
 
 
 ## License

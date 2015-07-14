@@ -58,14 +58,15 @@ module MultiPing
       percentage_regexp = /(\d*\.\d*)%/
       avg_regexp = /\/(\d*\.\d*).*ms/
       @results.sort_by { |server, result|
-        if result[0] =~ /ERROR/
-          - 100 * 3000
+        if result.join =~ /ERROR/ ||
+          "000999".to_i
         else
-          percentage = percentage_regexp.match(result[-2])[1]
-          avg = avg_regexp.match(result[-1])[1]
+          percentage = "%03d" % percentage_regexp.match(result[-2])[1].to_f
+          avg = avg_regexp.match(result[-1])[1].to_f
+          avg = 999 if avg > 999
+          avg = "%03d" % (1000 - avg)
           # p [percentage,avg]
-          x = (100 - percentage.to_f) * avg.to_f
-          x
+          "#{percentage}|#{avg}".to_i
         end
       }
     end
