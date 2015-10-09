@@ -22,11 +22,9 @@ OptionParser.new do |opts|
   Usage 3: echo hosts... || multi_ping [options]
 BANNER
   opts.on('-c', '--count COUNT', 'Ping Count') { |v| options[:count] = v }
-  opts.on('-s', '--size SIZE', 'Ping Package Size') { |v| options[:size] = v }
   opts.on('-p', '--parallel PARALLEL', 'Parallel running') { |v| options[:parallel] = v }
-  opts.on('-l', '--list', 'server list only') { options[:list_only] = true}
+  opts.on('-l', '--list', 'server simple list only') { options[:list_only] = true}
 end.parse!
-
 
 options[:hosts] = []
 
@@ -38,4 +36,9 @@ else
   end
 end
 
-MultiPing::Processor.new(options).process.report
+processor = MultiPing::Processor.new(options).process
+
+if options[:list_only]
+  processor.results.sort_by {|k,v| v[1] * 100 + 100 / v[0]}  \
+    .reverse.map{|k,v| puts "#{k}, #{v[0].round(4)}, #{v[1].round(2)}"}
+end
