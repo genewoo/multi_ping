@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require "bundler/setup"
+# require "bundler/setup"
 require "multi_ping"
 
 # You can add fixtures and/or initialization code here to make experimenting
@@ -14,8 +14,13 @@ require "multi_ping"
 
 require 'optparse'
 
+if Process.euid > 0
+  puts "You have to run with root privilege"
+  exit(-1)
+end
+
 options = {}
-OptionParser.new do |opts|
+parser = OptionParser.new do |opts|
   opts.banner = <<BANNER
   Usage 1: multi_ping [options] hosts...
   Usage 2: multi_ping [options] < host_file (one host each line)
@@ -25,7 +30,9 @@ BANNER
   opts.on('-p', '--parallel PARALLEL', 'Parallel running') { |v| options[:parallel] = v }
   opts.on('-v', '--verbose', 'Print log verbose') { options[:verbose] = true}
   opts.on('-t', '--threshold COUNT', 'Stop ping once reach the threshold') {|v| options[:threshold] = v}
-end.parse!
+end
+
+parser.parse!
 
 options[:hosts] = []
 
@@ -36,6 +43,8 @@ else
     options[:hosts] << line
   end
 end
-
+if ARGV.empty? && options[:hosts].empty?
+  puts parser
+end
 processor = MultiPing::Processor.new(options).process
 processor.results.map{|k,v| puts "#{k}, #{v[0].round(4)}, #{v[1].round(2)}"}
