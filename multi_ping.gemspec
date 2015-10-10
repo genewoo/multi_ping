@@ -14,7 +14,7 @@ Gem::Specification.new do |spec|
   spec.homepage      = "https://github.com/genewoo/multi_ping"
   spec.license       = "MIT"
 
-  spec.required_ruby_version     = '>= 2.2.2'
+  spec.required_ruby_version     = '>= 2.2.0'
   spec.required_rubygems_version = '>= 1.8.11'
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
