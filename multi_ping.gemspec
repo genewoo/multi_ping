@@ -7,20 +7,15 @@ Gem::Specification.new do |spec|
   spec.name          = "multi_ping"
   spec.version       = MultiPing::VERSION
   spec.authors       = ["genewoo"]
-  spec.email         = ["genewoo@gmail.com"]
+  spec.email         = ["genewoo_AT_gmail.com"]
 
-  spec.summary       = %q{TODO: Write a short summary, because Rubygems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
+  spec.summary       = %q{Ping Multiple Nodes Concurrently}
+  spec.description   = %q{Check network quality by sending ICMP package concurrently.}
   spec.homepage      = "https://github.com/genewoo/multi_ping"
   spec.license       = "MIT"
 
-  # Prevent pushing this gem to RubyGems.org by setting 'allowed_push_host', or
-  # delete this section to allow pushing this gem to any host.
-  if spec.respond_to?(:metadata)
-    # spec.metadata['allowed_push_host'] = "TODO: Set to 'http://mygemserver.com'"
-  else
-    raise "RubyGems 2.0 or newer is required to protect against public gem pushes."
-  end
+  spec.required_ruby_version     = '>= 2.2.2'
+  spec.required_rubygems_version = '>= 1.8.11'
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   spec.bindir        = "exe"
