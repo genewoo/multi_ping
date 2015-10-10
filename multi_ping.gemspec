@@ -13,12 +13,12 @@ Gem::Specification.new do |spec|
   spec.description   = %q{Check network quality by sending ICMP package concurrently.}
   spec.homepage      = "https://github.com/genewoo/multi_ping"
   spec.license       = "MIT"
-
+  spec.executables   = 'multi_ping'
   spec.required_ruby_version     = '>= 2.2.0'
   spec.required_rubygems_version = '>= 1.8.11'
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
-  spec.bindir        = "exe"
+  spec.bindir        = "bin"
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
