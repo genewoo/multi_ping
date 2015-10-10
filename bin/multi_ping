@@ -23,7 +23,8 @@ OptionParser.new do |opts|
 BANNER
   opts.on('-c', '--count COUNT', 'Ping Count') { |v| options[:count] = v }
   opts.on('-p', '--parallel PARALLEL', 'Parallel running') { |v| options[:parallel] = v }
-  opts.on('-l', '--list', 'server simple list only') { options[:list_only] = true}
+  opts.on('-v', '--verbose', 'Print log verbose') { options[:verbose] = true}
+  opts.on('-t', '--threshold COUNT', 'Stop ping once reach the threshold') {|v| options[:threshold] = v}
 end.parse!
 
 options[:hosts] = []
@@ -37,8 +38,4 @@ else
 end
 
 processor = MultiPing::Processor.new(options).process
-
-if options[:list_only]
-  processor.results.sort_by {|k,v| v[1] * 100 + 100 / v[0]}  \
-    .reverse.map{|k,v| puts "#{k}, #{v[0].round(4)}, #{v[1].round(2)}"}
-end
+processor.results.map{|k,v| puts "#{k}, #{v[0].round(4)}, #{v[1].round(2)}"}

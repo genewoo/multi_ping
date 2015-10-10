@@ -10,16 +10,31 @@ Install it yourself as:
 
 ## Usage
 
+You need to run ```multi_ping``` with a root privilege, ie. in rvm and sudo, ```rvmsudo multi_ping```
+
 ```
   Usage 1: multi_ping [options] hosts...
   Usage 2: multi_ping [options] < host_file (one host each line)
   Usage 3: echo hosts... || multi_ping [options]
     -c, --count COUNT                Ping Count
-    -s, --size SIZE                  Ping Package Size
     -p, --parallel PARALLEL          Parallel running
-    -l, --list                       server list only
- ```
+    -v, --verbose                    Print log verbose
+    -t, --threashold COUNT           Stop ping once reach the threashold
+```
 
+## Sample Output
+
+It will stop ping the host once 1/5 or total count of pacage was dropped
+
+```
+tw.sina.com.cn, 90.2926, 100.0
+sg.sina.com.cn, 97.802, 100.0
+jp.sina.com.cn, 113.5288, 100.0
+hk.sina.com.cn, 179.8547, 100.0
+us.sina.com.cn, 264.4235, 100.0
+uk.sina.com.cn, 297.1144, 100.0
+nothing.nil, 9999.0, 0.0
+```
 
 ## Development
 

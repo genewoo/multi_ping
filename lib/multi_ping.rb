@@ -12,14 +12,16 @@ module MultiPing
 
   class Processor
 
-    attr_accessor :results
+    # attr_accessor :results
 
     def initialize(options={})
       @count = options.fetch :count, MultiPing::DEFAULT[:count]
       @count = @count.to_i if @count.kind_of? String
       @parallel = options.fetch :parallel, MultiPing::DEFAULT[:parallel]
+      @verbose = options.fetch :verbose, false
+      @threshold = options.fetch :threshold, @count
+      @threshold = @threshold.to_i if @threshold.kind_of? String
       @hosts = options.fetch :hosts, []
-      @list_only = options.fetch :list_only, false
       @results = {}
       @queue = Queue.new
       @hosts.each { |host| @queue << host }
@@ -41,19 +43,19 @@ module MultiPing
                   rtary << icmp.duration
                 else
                   pingfails += 1
-                  if pingfails > @count / 10.0 # more than 10 is not acceptable
+                  if pingfails >= @threshold
+                    pingfails = @count # make it all failed
                     break
-                    pingfails = @count # make it 0 connection
                   end
                 end
               end
               if pingfails < @count
                 avg = rtary.inject(0) {|sum, i| sum + i} * 1000/(@count - pingfails)
                 quality = pingfails == 0 ? "Perfect!":"#{pingfails} within #{@count} packets were droped"
-                puts "#{host} | Response Time : #{avg.round(2)} ms | #{quality}"  unless @list_only
+                puts "#{host} | Response Time : #{avg.round(2)} ms | #{quality}"  if @verbose
                 @results[host] = [avg, (@count - pingfails) * 100.0 / @count]
               else
-                @results[host] = [avg, 0.0]
+                @results[host] = [9999, 0.0]
               end
             end
           rescue ThreadError
@@ -62,6 +64,10 @@ module MultiPing
       end
       workers.map(&:join)
       self
+    end
+
+    def results
+      @results.sort_by{|k,v| v[1] * - 100 - 100 / v[0]}
     end
   end
 end
